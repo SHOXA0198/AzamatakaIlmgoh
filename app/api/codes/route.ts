@@ -3,19 +3,23 @@ import { NextResponse } from "next/server";
 // Kodlar vaqtincha xotirada saqlanadi
 let codes: any[] = [];
 
+// GET: kodlarni olish
 export async function GET() {
   return NextResponse.json({ items: codes });
 }
 
-// Agar keyinchalik POST orqali kod qo‘shmoqchi bo‘lsangiz shu yerda ishlatishingiz mumkin
-export function addCodes(newOnes: any[]) {
-  codes = [...codes, ...newOnes];
+// POST: yangi kod qo‘shish
+export async function POST(request: Request) {
+  const newCodes = await request.json();
+  codes = [...codes, ...newCodes];
+  return NextResponse.json({ success: true, items: codes });
 }
 
-export function getCodes() {
-  return codes;
-}
-
-export function resetCodes() {
+// Internal functions, faqat server ichida ishlatiladi
+function resetCodes() {
   codes = [];
+}
+
+function getCodes() {
+  return codes;
 }
