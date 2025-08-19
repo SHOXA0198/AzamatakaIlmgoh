@@ -1,0 +1,113 @@
+/* Ilmgoh brand colors */
+:root {
+  --primary: 215 69% 13%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 49 100% 39%;
+  --secondary-foreground: 0 0% 10%;
+
+  --accent: 49 100% 39%;
+  --accent-foreground: 0 0% 10%;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-dark: #0A1D37;
+  --primary-gold: #C5A100;
+  --background: #FAFBFC;
+  --text-primary: #1A1A1A;
+  --text-secondary: #666666;
+  --border-color: #E5E7EB;
+}
+
+@layer base {
+  :root {
+    --background: 250 252 252;
+    --foreground: 10 29 55;
+    --card: 255 255 255;
+    --card-foreground: 10 29 55;
+    --popover: 255 255 255;
+    --popover-foreground: 10 29 55;
+    --primary: 10 29 55;
+    --primary-foreground: 255 255 255;
+    --secondary: 197 161 0;
+    --secondary-foreground: 255 255 255;
+    --muted: 240 242 247;
+    --muted-foreground: 10 29 55;
+    --accent: 197 161 0;
+    --accent-foreground: 255 255 255;
+    --destructive: 239 68 68;
+    --destructive-foreground: 255 255 255;
+    --border: 197 161 0;
+    --input: 240 242 247;
+    --ring: 10 29 55;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-primary;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary/90 px-4 py-2 rounded-lg font-medium transition-colors duration-200 shadow-md hover:shadow-lg;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-white hover:bg-secondary/90 px-4 py-2 rounded-lg font-medium transition-colors duration-200 shadow-md hover:shadow-lg;
+  }
+  
+  .card {
+    @apply bg-white text-primary p-6 rounded-lg shadow-md border border-secondary/20 hover:shadow-lg transition-shadow duration-200;
+  }
+  
+  .input {
+    @apply flex h-10 w-full rounded-md border border-secondary/30 bg-white px-3 py-2 text-sm text-primary placeholder:text-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:border-secondary;
+  }
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.5s ease-out;
+}
+
+/* Responsive design helpers */
+@screen md {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@screen lg {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@screen xl {
+  .container {
+    max-width: 1280px;
+  }
+}
