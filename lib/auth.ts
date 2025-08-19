@@ -13,23 +13,16 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials) {
-        if (!credentials?.username || !credentials?.password) {
-          return null
-        }
+        if (!credentials?.username || !credentials?.password) return null
 
         try {
           await connectDB()
           const user = await User.findOne({ username: credentials.username })
 
-          if (!user) {
-            return null
-          }
+          if (!user) return null
 
           const isPasswordValid = await bcrypt.compare(credentials.password, user.password)
-
-          if (!isPasswordValid) {
-            return null
-          }
+          if (!isPasswordValid) return null
 
           return {
             id: user._id.toString(),
@@ -48,14 +41,15 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.username = user.username
         token.isAdmin = user.isAdmin
+        token.sub = user.id  // sub maydonini ham qo‘shdik
       }
       return token
     },
     async session({ session, token }) {
       if (token) {
-        session.user.id = token.sub
-        session.user.username = token.username as string
-        session.user.isAdmin = token.isAdmin as boolean
+        session.user.id = token.sub ?? ''          // undefined bo‘lsa bo‘sh string
+        session.user.username = token.username ?? ''
+        session.user.isAdmin = token.isAdmin ?? false
       }
       return session
     }
