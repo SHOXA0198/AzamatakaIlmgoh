@@ -1,29 +1,14 @@
 import { NextResponse } from "next/server";
-import { addCodes } from "../route"; // codes massivini ishlatish uchun
 
-function randomCode() {
-  return Math.random().toString(36).substring(2, 10).toUpperCase();
+// POST orqali yangi kod yaratish va javob berish
+export async function POST(request: Request) {
+  // Misol uchun, 1 ta random kod yaratamiz
+  const randomCode = Math.random().toString(36).substring(2, 10).toUpperCase();
+  
+  return NextResponse.json({ code: randomCode });
 }
 
-export async function POST(req: Request) {
-  const body = await req.json();
-  const { count, limit, types } = body;
-
-  const newCodes: any[] = [];
-
-  for (const t of types) {
-    for (let i = 0; i < count; i++) {
-      newCodes.push({
-        _id: crypto.randomUUID(),
-        code: randomCode(),
-        testType: t,
-        used: 0,
-        limit: limit,
-      });
-    }
-  }
-
-  addCodes(newCodes);
-
-  return NextResponse.json({ ok: true, added: newCodes.length });
+// GET: shunchaki test yoki frontend uchun
+export async function GET() {
+  return NextResponse.json({ message: "Use POST to generate codes" });
 }
