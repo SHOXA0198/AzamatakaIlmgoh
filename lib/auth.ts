@@ -1,8 +1,25 @@
 import bcrypt from 'bcryptjs'
-import { NextAuthOptions } from 'next-auth'
+import { NextAuthOptions, DefaultSession } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import connectDB from './mongodb'
 import User from '@/models/User'
+
+// TypeScript uchun session.user va User tipini kengaytirish
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string
+      username: string
+      isAdmin: boolean
+    } & DefaultSession["user"]
+  }
+
+  interface User {
+    id: string
+    username: string
+    isAdmin: boolean
+  }
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -41,13 +58,13 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.username = user.username
         token.isAdmin = user.isAdmin
-        token.sub = user.id  // sub maydonini ham qo‘shdik
+        token.sub = user.id
       }
       return token
     },
     async session({ session, token }) {
       if (token) {
-        session.user.id = token.sub ?? ''          // undefined bo‘lsa bo‘sh string
+        session.user.id = token.sub ?? ''
         session.user.username = token.username ?? ''
         session.user.isAdmin = token.isAdmin ?? false
       }
